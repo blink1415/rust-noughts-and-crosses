@@ -72,7 +72,7 @@ impl Game {
         for x in 0..3 {
             output.push_str(&(x + 1).to_string());
             for y in 0..3 {
-                output.push_str(self.board[x][y].to_string());
+                output.push_str(&self.board[x][y].to_string());
             }
             output.push_str("\n");
         }
