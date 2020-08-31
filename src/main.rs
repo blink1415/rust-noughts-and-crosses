@@ -10,7 +10,7 @@ enum Symbol {
 impl Symbol {
     fn to_string(&self) -> String {
         match self {
-            Symbol::None => String::from(""),
+            Symbol::None => String::from("_"),
             Symbol::X => String::from("X"),
             Symbol::O => String::from("O"),
         }
@@ -47,7 +47,7 @@ impl Game {
             || diag
     }
 
-    fn check_for_draw(&self) -> bool{
+    fn check_for_draw(&self) -> bool {
         for x in 0..3 {
             for y in 0..3 {
                 if self.board[x][y] == Symbol::None {
@@ -60,27 +60,19 @@ impl Game {
 
     // Checks if the move aims at an empty square
     fn is_legal_move(&self, last_x: usize, last_y: usize) -> bool {
-        if self.board[last_x][last_y] == Symbol::None {
-            true
-        } else {
-            false
-        }
+        self.board[last_x][last_y] == Symbol::None
     }
 
     // Prints the board in a 3x3 square
     // Example: X_O
-    //          O_X
+    //          OXX
     //          OXO
     fn display(&self) {
         let mut output = String::from(" 123\n");
         for x in 0..3 {
             output.push_str(&(x + 1).to_string());
             for y in 0..3 {
-                match self.board[x][y] {
-                    Symbol::None => output.push_str("_"),
-                    Symbol::X => output.push_str("X"),
-                    Symbol::O => output.push_str("O"),
-                }
+                output.push_str(self.board[x][y].to_string());
             }
             output.push_str("\n");
         }
@@ -111,14 +103,8 @@ fn main() {
         // Draws game board to terminal
         game.display();
 
-        // Announces which player's turn it is
-        match current_player {
-            Symbol::O => println!("Current move: O"),
-            Symbol::X => println!("Current move: X"),
-            Symbol::None => panic!(
-                "Current player has been set to empty, but the game is attempting to make a move."
-            ),
-        }
+        // Announces which player's turn it is        
+        println!("Current move: {}", current_player.to_string());
 
         // Gets input from user
         let mut input = String::new();
